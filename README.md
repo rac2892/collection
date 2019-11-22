@@ -1,3 +1,11 @@
+### My Edits to the readme file
+
+# Groceries
+1. _Eggs_
+2. _Lunchables_
+
+'lets pretend that this is code'
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/rac2892/collection/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
