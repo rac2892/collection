@@ -4,7 +4,9 @@
 1. _Eggs_
 2. _Lunchables_
 
+```
 'lets pretend that this is code'
+```
 
 ## Welcome to GitHub Pages
 
