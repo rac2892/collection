@@ -3,7 +3,7 @@
 ## 1. addExpense
 
 ### Purpose
-The purpose is to add up expenses based on an assigned catagory. Ex. Gas payments would be in the Car catagory
+The purpose is to add up expenses based on an assigned catagory using Excel VBA. Ex. Gas payments would be in the Car catagory
 
 ### Inputs
 addExpense(expenseName As String, expenseCosts As Range, expenseCatagory As Range)
