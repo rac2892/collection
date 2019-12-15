@@ -1,54 +1,82 @@
 ```
 'Author: rac2892
-'Date: 11/16/2019
-
-'Future Changes
-'--An error check to guarantee variables are sized properly
-'--An error check to guarantee variables contain values they need to hold
-'--Improve the way the for loop looks through each cell
+'Date: 12/10/2019
 
 'The code's purpose is to add up expenses based on an assigned catagory.
-'Ex. Gas payments would be in the Car catagory
+'Ex. Gas payments would be in the Car catagory*
 
-Option Explicit
-Function addExpense(exp_Name As String, rn_Expense As Range, rn_ExpType As Range) As Double
+
 'The function's inputs are:
 '--The expense catagory's name that is being summed
-'--The cost of each expense as a single row/column (should check this-Shouldn't work)
-'--The catagory of each expense as a single row/column (should check this-Shouldn't work)
-
-'The cost and type of expenses should be both rows or should both be columns.
+'--The cost of each expense as a single column
+'--The catagory of each expense as a single column
 
 'The function's outputs are:
 '--The total cost of the chosen expense catagory
+'--An error message if:
+    '-the lists of the expenses' costs and catagories aren't the same size
+    '-the lists are not columns
+    '-there is a non-numeric value in the cost list
+    '-there is a non-text value in the catagory list
 
-Dim expense As Range
+Option Explicit
+Function addExpense(expenseName As String, expenseCosts As Range, expenseCatagory As Range) As Variant
+
+
 Dim total As Double
 Dim i As Integer
-
 total = 0#
-i = 1
+Dim errormsg As String
 
+errormsg = "Function won't work properly because: "
 
-'For every cell in the rn_Expense row/column of cells the expense's catagory is checked
-    'against the expense catagory being added up. If the catagories match then the
-    'expense's cost is added to the total before the next expense is checked. If the
-    'catagories don't match then the next expense is checked.
-'Ex. You want to add up all Food expenses and the expense catagory for the expense being
-    'checked is Car then it won't be added.
-'The for loop uses the range with the expense's costs so to know the corresponding catagory
-    'the index variable 'i' is used to compare the correct catagory.
-For Each expense In rn_Expense
+'Checks if the expenseCosts and expenseCatagory are columns by looking at how many
+    'columns are in the selected ranges
+'If the lists are not columns the error message is updated and the function jumps
+    'down to the end.
+If expenseCosts.Columns.Count <> 1 And expenseCatagory.Columns.Count <> 1 Then
+    errormsg = errormsg & "Function only works with columns"
+    GoTo LastCheck
+End If
+'Checks if the expenseCosts and expenseCatagory are the same length by comparing
+    'how many rows are in the selected ranges
+'If the selected list lengths don't match the error message is updated and the
+    'function jumps down to the end.
+If expenseCosts.Rows.Count <> expenseCatagory.Rows.Count Then
+    errormsg = errormsg & "The selected cell ranges are not equal"
+    GoTo LastCheck
+End If
 
-    If StrComp(exp_Name, rn_ExpType.Cells(i, 1)) = 0 Then
-        total = total + expense.Value
+For i = 1 To expenseCosts.Rows.Count
+'If one of the expense's cells in the catagory list has a non-text value and the cell is not empty
+    'then the error message is updated and the function jumps down to the end.
+    If Not Application.WorksheetFunction.IsText(expenseCatagory.Cells(i, 1).Value) And Not IsEmpty(expenseCatagory.Cells(i, 1).Value) Then
+       errormsg = errormsg & "There is a non-text value in the Expense Catagory list"
+       GoTo LastCheck
     End If
+'If one of the expense's cells in the cost list has a non-numeric value and the cell is not empty
+    'then the error message is updated and the function jumps down to the end.
+   If Not IsNumeric(expenseCosts.Cells(i, 1).Value) And Not IsEmpty(expenseCosts.Cells(i, 1).Value) Then
+       errormsg = errormsg & "There is a non-numeric value in the Expense Cost list"
+       GoTo LastCheck
+   End If
+'If expense that is being evaluated has the same catagory as the one specified by the expenseName variable
+    'then the cost of that expense is added to the total
+   If StrComp(expenseName, expenseCatagory.Cells(i, 1).Value) = 0 Then
+       total = total + expenseCosts.Cells(i, 1)
+   End If
     
-    i = i + 1
-    
-Next expense
+Next i
 
-addExpense = total
+'This is where the function jumps to
+'If there was no changes to the error message then the total is shown but if there were
+    'changes the error message is shown instead
+LastCheck:
+If StrComp(errormsg, "Function won't work properly because: ") = 0 Then
+    addExpense = total
+Else
+    addExpense = errormsg
+End If
 
 End Function
 ```
