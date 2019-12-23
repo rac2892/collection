@@ -44,10 +44,8 @@ The purpose of these scripts is to demonstrate the motion of a pendulum with 3 l
 3. A graph showing if energy is conserved.
 
 ### Associated Files
- - [Simulation Script]()
- - [Simulation Code]()
- - [Equations Script]()
- - [Equations Code]()
+ - [Simulation Script](https://github.com/rac2892/collection/blob/master/Dynamics_Project_Simulation.m)
+ - [Equations Script](https://github.com/rac2892/collection/blob/master/Dynamics_Project_Equations.m)
  
 ## 3. Runge Kutta 4th Order
 
